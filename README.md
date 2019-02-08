@@ -4,5 +4,8 @@ Things I maintain, checked into git as subtrees for easier management or pull re
 
 Powered by [aurpublish](https://github.com/eli-schwartz/aurpublish), now available as a standalone tool.
 
+# TODO
+* add pkgver() functions. <https://wiki.archlinux.org/index.php/VCS_package_guidelines#Git>
+
 # Copyright
 All PKGBUILD files in this repository are licensed under the Unlicense. IMHO they aren't unique enough to qualify for copyright, therefore I have made this explicit.
