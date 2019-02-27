@@ -6,6 +6,15 @@ Powered by [aurpublish](https://github.com/eli-schwartz/aurpublish), now availab
 
 # TODO
 * ~~add pkgver() functions. <https://wiki.archlinux.org/index.php/VCS_package_guidelines#Git>~~
+* create tagged beta PKGBUILDs for:
+  * Cura, 
+  * cura-binary-data, 
+  * CuraEngine, 
+  * fdm_materials
+  * libArcus, 
+  * libCharon, 
+  * libSavitar 
+  * Uranium
 
 # Copyright
 All PKGBUILD files in this repository are licensed under the Unlicense. IMHO they aren't unique enough to qualify for copyright, therefore I have made this explicit.
