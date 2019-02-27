@@ -8,11 +8,11 @@ Powered by [aurpublish](https://github.com/eli-schwartz/aurpublish), now availab
 * ~~add pkgver() functions. <https://wiki.archlinux.org/index.php/VCS_package_guidelines#Git>~~
 * create tagged beta PKGBUILDs for:
   * Cura, 
-  * cura-binary-data, 
-  * CuraEngine, 
+  * cura-binary-data
+  * CuraEngine
   * fdm_materials
-  * libArcus, 
-  * libCharon, 
+  * libArcus
+  * libCharon
   * libSavitar 
   * Uranium
 
