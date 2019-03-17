@@ -1,0 +1,22 @@
+# Maintainer: Anton T Johansson <anton@tetov.se>
+
+_reponame=cura-binary-data
+pkgname=cura-binary-data-beta
+pkgver=4.0
+pkgrel=1
+pkgdesc="Contains binary data for Cura releases, like compiled translations and firmware."
+arch=('any')
+url="https://github.com/Ultimaker/${_reponame}"
+license=('AGPL')
+provides=('cura-binary-data')
+conflicts=('cura-binary-data')
+source=(https://github.com/Ultimaker/${_reponame}/archive/${pkgver}-beta.tar.gz)
+sha512sums=('cd8487d476c3e20447a2d3feb8d3c546cea1d81555974a19776b64ed0539b8258fd69f8e4c4071b0d81386bdf84f7fae9dda1fb938c4bda2fc4c582963f4231d')
+
+package(){
+  install -d "${pkgdir}/usr/share/"
+  cp -r "${srcdir}/${_reponame}-${pkgver}-beta/cura/" "${pkgdir}/usr/share/cura"
+
+  # see https://github.com/Ultimaker/cura-binary-data/issues/6
+  rm -rf "${pkgdir}/usr/share/cura/resources/i18n"
+}

@@ -1,0 +1,14 @@
+pkgbase = cura-binary-data-beta
+	pkgdesc = Contains binary data for Cura releases, like compiled translations and firmware.
+	pkgver = 4.0
+	pkgrel = 1
+	url = https://github.com/Ultimaker/cura-binary-data
+	arch = any
+	license = AGPL
+	provides = cura-binary-data
+	conflicts = cura-binary-data
+	source = https://github.com/Ultimaker/cura-binary-data/archive/4.0-beta.tar.gz
+	sha512sums = cd8487d476c3e20447a2d3feb8d3c546cea1d81555974a19776b64ed0539b8258fd69f8e4c4071b0d81386bdf84f7fae9dda1fb938c4bda2fc4c582963f4231d
+
+pkgname = cura-binary-data-beta
+
