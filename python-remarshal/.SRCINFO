@@ -1,0 +1,22 @@
+pkgbase = python-remarshal
+	pkgdesc = Convert between TOML, YAML and JSON
+	pkgver = 0.9.0
+	pkgrel = 00
+	url = https://github.com/dbohdan/remarshal
+	arch = any
+	license = custom:MIT
+	makedepends = python-pip
+	depends = python
+	depends = python-yaml
+	depends = python-pytoml
+	depends = python-dateutil
+	noextract = remarshal-0.9.0-py3-none-any.whl
+	source = PKGBUILD_EXTRAS
+	source = https://files.pythonhosted.org/packages/80/71/56920ef68ff4e855e071324186a2f206f0620c83e5cf35b32c5a7f4ab7bb/remarshal-0.9.0-py3-none-any.whl
+	source = LICENSE
+	md5sums = SKIP
+	md5sums = 41f21e92d746e2e86aad34516391a565
+	md5sums = fbb1a200619d304ebe9748cb0970a24f
+
+pkgname = python-remarshal
+
