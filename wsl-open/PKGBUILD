@@ -10,19 +10,20 @@ license=('MIT')
 depends=('bash' 'xdg-utils' 'coreutils' 'findutils')
 makedepends=('git')
 checkdepends=('bash-bats' 'bash-bats-assert' 'bash-bats-support')
-source=("git+https://gitlab.com/4U6U57/wsl-open.git#tag=v$pkgver")
-sha256sums=('SKIP')
+source=("https://gitlab.com/4U6U57/$pkgname/-/archive/v$pkgver/$pkgname-v$pkgver.tar.gz")
+sha256sums=('98041e748e0e137435d7a49206f8b734b64983b8f936608e77fc537b88eb1fb8')
 
 check() {
-  cd $pkgname
+  cd $pkgname-v$pkgver
 
+  # Load bats-support and bats-assert from /usr/lib/
   sed -r -i 's#^load "node_modules/bats-((support|assert)/load)"#load "/usr/lib/bats-\1\.bash"#g' wsl-open.bats
 
   bats wsl-open.bats
 }
 
 package() {
-  cd $pkgname
+  cd $pkgname-v$pkgver
 
   install -D -m755 $pkgname.sh $pkgdir/usr/bin/$pkgname
   install -D -m644 $pkgname.1 $pkgdir/usr/share/man/man1/$pkgname.1

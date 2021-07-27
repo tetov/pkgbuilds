@@ -13,7 +13,7 @@ pkgbase = wsl-open
 	depends = xdg-utils
 	depends = coreutils
 	depends = findutils
-	source = git+https://gitlab.com/4U6U57/wsl-open.git#tag=v2.2.1
-	sha256sums = SKIP
+	source = https://gitlab.com/4U6U57/wsl-open/-/archive/v2.2.1/wsl-open-v2.2.1.tar.gz
+	sha256sums = 98041e748e0e137435d7a49206f8b734b64983b8f936608e77fc537b88eb1fb8
 
 pkgname = wsl-open
