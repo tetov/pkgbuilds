@@ -1,0 +1,34 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Jan-Erik Rediger <badboy at archlinux dot us>
+
+pkgname=bash-bats-assert
+pkgver=2.0.0
+pkgrel=1
+pkgdesc="Common assertions for Bats"
+arch=("any")
+url="https://github.com/bats-core/bats-assert"
+license=("custom:CC0")
+depends=('bash-bats-support')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/bats-core/bats-assert/archive/v$pkgver.tar.gz")
+sha512sums=('02a9d8edc0c241f0d155a074ff58fcda541ab2c5b7b07213c19576b2ff3ae1bc17dacd933e71c9a3db9bfa4f4e1f963349d14426b48619b3ff7b7334f09b181d')
+
+check() {
+  cd bats-assert-$pkgver
+  TEST_DEPS_DIR=/usr/lib bats test
+}
+
+package() {
+  cd bats-assert-$pkgver
+
+  for fn in *.bash; do
+    install -Dm755 $fn \
+      "$pkgdir"/usr/lib/bats-assert/$(basename $fn)
+  done
+
+  for fn in src/*.bash; do
+    install -Dm755 $fn \
+      "$pkgdir"/usr/lib/bats-assert/src/$(basename $fn)
+  done
+
+  install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+}
