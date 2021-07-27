@@ -1,0 +1,32 @@
+# Maintainer: Anton Tetov <anton@tetov.xyz>
+
+pkgname=wsl-open
+pkgver=2.2.1
+pkgrel=1
+pkgdesc="Utility for opening files within the Windows Subsystem for Linux command line in Windows GUI applications."
+arch=('any')
+url="https://github.com/4U6U57/wsl-open"
+license=('MIT')
+depends=('bash' 'xdg-utils' 'coreutils' 'findutils')
+makedepends=('git')
+checkdepends=('bash-bats' 'bash-bats-assert' 'bash-bats-support')
+source=("git+https://gitlab.com/4U6U57/wsl-open.git#tag=v$pkgver")
+sha256sums=('SKIP')
+
+check() {
+    cd $pkgname
+
+    sed -r -i 's#^load "node_modules/bats-((support|assert)/load)"#load "/usr/lib/bats-\1\.bash"#g' wsl-open.bats
+
+	bats wsl-open.bats
+}
+
+package() {
+	cd $pkgname
+
+    install -D -m755 $pkgname.sh $pkgdir/usr/bin/$pkgname
+    install -D -m644 $pkgname.1 $pkgdir/usr/share/man/man1/$pkgname.1
+    install -D -m644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
+}
+
+# vim:set ts=2 sw=2 et:

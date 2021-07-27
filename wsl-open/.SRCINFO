@@ -1,0 +1,19 @@
+pkgbase = wsl-open
+	pkgdesc = Utility for opening files within the Windows Subsystem for Linux command line in Windows GUI applications.
+	pkgver = 2.2.1
+	pkgrel = 1
+	url = https://github.com/4U6U57/wsl-open
+	arch = any
+	license = MIT
+	checkdepends = bash-bats
+	checkdepends = bash-bats-assert
+	checkdepends = bash-bats-support
+	makedepends = git
+	depends = bash
+	depends = xdg-utils
+	depends = coreutils
+	depends = findutils
+	source = git+https://gitlab.com/4U6U57/wsl-open.git#tag=v2.2.1
+	sha256sums = SKIP
+
+pkgname = wsl-open
