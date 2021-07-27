@@ -1,6 +1,6 @@
-# Maintainer: Nicolas Stalder <n+archlinux@stalder.io> # Adapted
-pkgname=caddy-custom
-pkgver=2.3.0
+# Maintainer: Nicolas Stalder <n+archlinux@stalder.io>
+pkgname=caddy-auriga
+pkgver=2.4.1
 pkgrel=2
 pkgdesc="Caddy web server"
 arch=('any')
@@ -25,19 +25,11 @@ sha256sums=(
 )
 
 build() {
-  rm -rf caddy-json-schema-patched || echo
-  git clone \
-      -b nullable \
-      --recurse-submodules \
-      --depth 1 \
-      --shallow-submodules \
-      https://github.com/ghostwheel42/caddy-json-schema \
-      ../caddy-json-schema-patched
   xcaddy build v${pkgver} \
-      --with github.com/abiosoft/caddy-json-schema=../caddy-json-schema-patched \
       --with github.com/caddy-dns/cloudflare \
       --with github.com/abiosoft/caddy-exec \
       --with github.com/abiosoft/caddy-json-parse \
+      --with github.com/abiosoft/caddy-json-schema \
       --with github.com/awoodbeck/caddy-validate-github
 }
 
@@ -56,3 +48,4 @@ package() {
   install -Dm 644 "${srcdir}/caddy.sysusers" "${pkgdir}/usr/lib/sysusers.d/caddy.conf"
   install -Dm 644 "${srcdir}/caddy.tmpfiles" "${pkgdir}/usr/lib/tmpfiles.d/caddy.conf"
 }
+
