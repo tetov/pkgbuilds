@@ -14,19 +14,17 @@ source=("git+https://gitlab.com/4U6U57/wsl-open.git#tag=v$pkgver")
 sha256sums=('SKIP')
 
 check() {
-    cd $pkgname
+  cd $pkgname
 
-    sed -r -i 's#^load "node_modules/bats-((support|assert)/load)"#load "/usr/lib/bats-\1\.bash"#g' wsl-open.bats
+  sed -r -i 's#^load "node_modules/bats-((support|assert)/load)"#load "/usr/lib/bats-\1\.bash"#g' wsl-open.bats
 
-	bats wsl-open.bats
+  bats wsl-open.bats
 }
 
 package() {
-	cd $pkgname
+  cd $pkgname
 
-    install -D -m755 $pkgname.sh $pkgdir/usr/bin/$pkgname
-    install -D -m644 $pkgname.1 $pkgdir/usr/share/man/man1/$pkgname.1
-    install -D -m644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
+  install -D -m755 $pkgname.sh $pkgdir/usr/bin/$pkgname
+  install -D -m644 $pkgname.1 $pkgdir/usr/share/man/man1/$pkgname.1
+  install -D -m644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
 }
-
-# vim:set ts=2 sw=2 et:
