@@ -12,6 +12,7 @@ $(OBJECTS):
 
 sign-all-missing:
 	find $(PKG_REPO) -iname "*.pkg.tar.zst" -exec sh -c "test -e {}.sig || gpg -v --detach-sign --no-armor {}" \;
+	repoctl update
 
 generate-srcinfo:
 	find . -name "PKGBUILD" -exec sh -c 'cd $$(dirname {}) && makepkg --printsrcinfo > .SRCINFO' \;
