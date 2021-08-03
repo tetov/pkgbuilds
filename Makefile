@@ -19,6 +19,9 @@ generate-srcinfo:
 check-upstream: generate-srcinfo
 	aur-out-of-date -local **/.SRCINFO
 
+lint:
+	namcap -i */PKGBUILD
+
 pull:
 	vcs pull --nested .
 
