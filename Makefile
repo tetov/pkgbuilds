@@ -5,7 +5,7 @@ PKG_REPO=/srv/http/pkg-repo
 
 OBJECTS= caddy-auriga wsl-open rtorrent-flood
 
-.PHONY: $(OBJECTS) sign-all chroot all clean pull check-upstreams sign-all-missing
+.PHONY: $(OBJECTS) sign-all chroot all clean pull check-upstreams sign-all-missing check-aur check-outdated
 
 $(OBJECTS):
 	cd $@ && makechrootpkg -c -r /home/tetov/chroot -l $@ -- PACKAGER=$(PACKAGER)
@@ -19,6 +19,11 @@ generate-srcinfo:
 
 check-upstream: generate-srcinfo
 	aur-out-of-date -local **/.SRCINFO
+
+check-aur:
+	repoctl status -a
+
+check-outdated: check-upstream check-aur
 
 lint:
 	namcap -i */PKGBUILD
