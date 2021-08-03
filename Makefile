@@ -5,7 +5,7 @@ PKG_REPO=/srv/http/pkg-repo
 
 OBJECTS= caddy-auriga wsl-open rtorrent-flood
 
-.PHONY: $(OBJECTS) sign-all chroot all clean pull check-upstreams sign-all-missing check-aur check-outdated
+.PHONY: $(OBJECTS) sign-all chroot all clean pull check-upstreams sign-all-missing check-aur check-outdated pacman.conf
 
 $(OBJECTS):
 	cd $@ && makechrootpkg -c -r /home/tetov/chroot -l $@ -- PACKAGER=$(PACKAGER)
@@ -35,11 +35,11 @@ clean:
 	vcs custom --nested --git --args clean -ff -xd .
 
 pacman.conf:
-	cp /etc/pacman.conf ./
+	curl -O https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/pacman/trunk/pacman.conf
 	cat pacman.conf.addition >> pacman.conf
 
 chroot: pacman.conf
 	mkdir -p $(CHROOT)
-	mkarchroot -C pacman.conf $(CHROOT) base-devel
+	mkarchroot -C pacman.conf $(CHROOT)/root base-devel
 
 all: $(OBJECTS)
