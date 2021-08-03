@@ -1,17 +1,20 @@
 PACKAGER="Anton Tetov <anton@tetov.se>"
 CHROOT=$$HOME/chroot
 
-OBJECTS= caddy-auriga wsl-open
-.PHONY: $(OBJECTS) sign-all chroot all clean pull check-upstreams
+OBJECTS= caddy-auriga wsl-open rtorrent-flood
+
+.PHONY: $(OBJECTS) sign-all chroot all clean pull check-upstreams sign-all-missing
 
 $(OBJECTS):
-	cd $@ && makechrootpkg -c -r /home/tetov/chroot -l $@ -- PACKAGER=$(PACKAGER) --sign
+	cd $@ && makechrootpkg -c -r /home/tetov/chroot -l $@ -- PACKAGER=$(PACKAGER)
 
 sign-all-missing:
-    find . -iname "*.pkg.tar.zst" -exec sh -c "test -e {}.sig || gpg -v --detach-sign --no-armor {}" \;
+	find . -iname "*.pkg.tar.zst" -exec sh -c "test -e {}.sig || gpg -v --detach-sign --no-armor {}" \;
 
+generate-srcinfo:
+	find . -name "PKGBUILD" -exec sh -c 'cd $$(dirname {}) && makepkg --printsrcinfo > .SRCINFO' \;
 
-check-upstream:
+check-upstream: generate-srcinfo
 	aur-out-of-date -local **/.SRCINFO
 
 pull:
@@ -26,5 +29,6 @@ pacman.conf:
 
 chroot: pacman.conf
 	mkdir -p $(CHROOT)
+	mkarchroot -C pacman.conf $(CHROOT) base-devel
 
 all: $(OBJECTS)
