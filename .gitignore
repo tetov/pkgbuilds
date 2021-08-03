@@ -19,3 +19,4 @@
 
 # mkpkg status files, from soyuz.archlinux.org
 .mkpkg_check
+pacman.conf
