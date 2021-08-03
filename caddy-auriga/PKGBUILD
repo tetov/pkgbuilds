@@ -1,8 +1,8 @@
 # Maintainer: Nicolas Stalder <n+archlinux@stalder.io>
 pkgname=caddy-auriga
-pkgver=2.4.1
-pkgrel=2
-pkgdesc="Caddy web server"
+pkgver=2.4.3
+pkgrel=1
+pkgdesc="Caddy web server with specific plugins for auriga"
 arch=('any')
 url="https://github.com/caddyserver/caddy"
 license=('Apache-2.0')
