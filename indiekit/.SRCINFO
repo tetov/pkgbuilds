@@ -1,7 +1,7 @@
 pkgbase = indiekit
 	pkgdesc = MicroPub endpoint configured for tetov.xyz using @indiekit/indiekit
 	pkgver = 0.3.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/tetov/indiekit
 	arch = any
 	license = Unlicense
@@ -20,6 +20,6 @@ pkgbase = indiekit
 	sha256sums = 5b591b39c306def0c7197a9c3749ec26c20ff8c65fd546670646b51f6fe23dd5
 	sha256sums = 24c6877667cfbaf6a5ca90bb6b3edcc8740132c8c944d96f85d5bcf5990146bf
 	sha256sums = a21ed89f43d4a22cadf91190b83c0f73237b5b9774352f3c9b419f0a87baba64
-	sha256sums = c87158a97600030dd53596883a452f4d306bffd2b17fca20e688d3e62b67f22f
+	sha256sums = 593c37ff34476b4e409a3ddf3f3ddee8d9c6bb60f89fb5a3d49e4e660a279b1a
 
 pkgname = indiekit
