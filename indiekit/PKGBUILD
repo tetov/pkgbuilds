@@ -2,13 +2,13 @@
 
 pkgname=indiekit
 _node_ver="14.15"
-pkgver=0.2.1
+pkgver=0.3.0
 pkgrel=1
 pkgdesc='MicroPub endpoint configured for tetov.xyz using @indiekit/indiekit'
 url='https://github.com/tetov/indiekit'
 license=('Unlicense')
 arch=('any')
-depends=('nodejs')
+depends=('nodejs' 'mongodb')
 makedepends=('nvm')
 backup=('etc/conf.d/indiekit')
 source=("${url}/releases/download/v${pkgver}/${pkgname}-${pkgver}.tgz"
@@ -17,7 +17,7 @@ source=("${url}/releases/download/v${pkgver}/${pkgname}-${pkgver}.tgz"
         'indiekit.tmpfiles'
         'indiekit.sh'
         'indiekit.conf.d')
-sha256sums=('8422389ccb5c3913b12ddb78cd6c18edd1fa0432e72b1c2aba704bbd3a102a97'
+sha256sums=('e718026163dcd8806652afdf072103f0b6ab7cd71875888068d945ddb0e87b80'
             'ec4ab4668071c5e49727e2b036550889496c7dc6860e305ed38633ac948b1bbc'
             '5b591b39c306def0c7197a9c3749ec26c20ff8c65fd546670646b51f6fe23dd5'
             '24c6877667cfbaf6a5ca90bb6b3edcc8740132c8c944d96f85d5bcf5990146bf'
