@@ -1,0 +1,86 @@
+# Maintainer: Anton Tetov <anton@tetov.se>
+
+pkgname=indiekit
+_node_ver=14.15
+pkgver=r7.bf88123
+pkgrel=3
+pkgdesc='MicroPub endpoint configured for tetov.xyz using @indiekit/indiekit'
+url='https://github.com/tetov/micropub.tetov.xyz'
+license=('Unlicense')
+arch=('any')
+depends=('nvm')
+makedepends=('git' 'npm')
+backup=('etc/conf.d/indiekit')
+source=("git+https://github.com/tetov/indiekit"
+        'indiekit.service'
+        'indiekit.sysusers'
+        'indiekit.tmpfiles'
+        'indiekit.sh'
+        'indiekit.conf.d')
+sha256sums=('SKIP'
+            'ec4ab4668071c5e49727e2b036550889496c7dc6860e305ed38633ac948b1bbc'
+            '5b591b39c306def0c7197a9c3749ec26c20ff8c65fd546670646b51f6fe23dd5'
+            '24c6877667cfbaf6a5ca90bb6b3edcc8740132c8c944d96f85d5bcf5990146bf'
+            'a21ed89f43d4a22cadf91190b83c0f73237b5b9774352f3c9b419f0a87baba64'
+            'f62c69987740244552e101afe5cf12dc4411bb557ae167e9b8000bd188a30bc0')
+
+_ensure_local_nvm() {
+    # let's be sure we are starting clean
+    which nvm >/dev/null 2>&1 && nvm deactivate && nvm unload
+    export NVM_DIR="${srcdir}/.nvm"
+
+    # The init script returns 3 if version specified
+    # in ./.nvrc is not (yet) installed in $NVM_DIR
+    # but nvm itself still gets loaded ok
+    source /usr/share/nvm/init-nvm.sh || [[ $? != 1 ]]
+}
+
+pkgver() {
+    cd "${pkgname}"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+    _ensure_local_nvm
+
+    cd "$pkgname"
+    nvm install
+    nvm install-latest-npm
+
+    npm shrinkwrap
+
+    # Create a tarball and remove npm designated ver name from it
+    tarball=$(npm pack)
+    mv "$tarball" "../$pkgname.tgz"
+}
+
+package() {
+    npm install --production -g --cache "$srcdir"/npm-cache \
+        --prefix "$pkgdir"/usr "$srcdir/$pkgname.tgz"
+
+    install -Dm755 "${srcdir}/${pkgname}.sh" "${pkgdir}/usr/bin/${pkgname}"
+    install -Dm644 "${srcdir}/${pkgname}.service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+    install -Dm644 "${srcdir}/${pkgname}.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+    install -Dm644 "${srcdir}/${pkgname}.tmpfiles" "${pkgdir}/usr/lib/tmpfiles.d/${pkgname}.conf"
+    install -Dm644 "${srcdir}/${pkgname}.conf.d" "${pkgdir}/etc/conf.d/${pkgname}"
+
+    find "${pkgdir}" -name package.json -print0 | xargs -r -0 sed -i '/_where/d'
+    find "${pkgdir}/usr" -type d -exec chmod 755 {} +
+    chown -R root:root "${pkgdir}"
+
+    # This doesn't save us much but oh well
+    # Thanks Nicola (https://git.archlinux.org/svntogit/community.git/tree/trunk/PKGBUILD?h=packages/atom)
+    find "$pkgdir/usr/lib/node_modules/$pkgname/node_modules" \
+        -name "*.a" -exec rm '{}' \; \
+        -or -name "*.bat" -exec rm '{}' \; \
+        -or -name "*.c" -exec rm '{}' \; \
+        -or -name "*.cpp" -exec rm '{}' \; \
+        -or -name "*.node" -exec chmod a-x '{}' \; \
+        -or -name "benchmark" -prune -exec rm -r '{}' \; \
+        -or -name "doc" -prune -exec rm -r '{}' \; \
+        -or -name "html" -prune -exec rm -r '{}' \; \
+        -or -name "man" -prune -exec rm -r '{}' \; \
+        -or -name "scripts" -prune -exec rm -r '{}' \; \
+        -or -path "*/less/gradle" -prune -exec rm -r '{}' \; \
+        -or -path "*/task-lists/src" -prune -exec rm -r '{}' \;
+}

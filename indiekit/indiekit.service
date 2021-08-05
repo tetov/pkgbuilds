@@ -1,0 +1,27 @@
+[Unit]
+Description=MicroPub endpoint indiekit configured for tetov.xyz
+After=network.target
+
+[Service]
+User=indiekit
+Environment=PORT=3000
+EnvironmentFile=/etc/conf.d/indiekit
+ExecStart=/usr/bin/node --use_strict /usr/lib/node_modules/indiekit/src/index.js
+Restart=always
+RestartSec=60s
+
+# Sandboxing features
+ProtectHome=tmpfs
+PrivateTmp=yes
+NoNewPrivileges=true
+ProtectSystem=strict
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE CAP_DAC_READ_SEARCH
+RestrictNamespaces=uts ipc pid user cgroup
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateDevices=yes
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target
