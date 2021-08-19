@@ -1,45 +1,39 @@
 PACKAGER="Anton Tetov <anton@tetov.se>"
 CHROOT=$$HOME/chroot
 
-PKG_REPO=/srv/http/pkg-repo
+PKG-REPO=/srv/http/pkg-repo
 
-OBJECTS= caddy-auriga wsl-open rtorrent-flood
+PKGS := ${dir ${wildcard ./*/PKGBUILD}}
 
-.PHONY: $(OBJECTS) sign-all chroot all clean pull check-upstreams sign-all-missing check-aur check-outdated pacman.conf
+SRCINFO-FILES := ${addsuffix .SRCINFO,$(PKGS)}
 
-$(OBJECTS):
+$(PKGS):
 	cd $@ && makechrootpkg -c -r /home/tetov/chroot -l $@ -- PACKAGER=$(PACKAGER)
 
-sign-all-missing:
-	find $(PKG_REPO) -iname "*.pkg.tar.zst" -exec sh -c "test -e {}.sig || gpg -v --detach-sign --no-armor {}" \;
-	repoctl update
+%.SRCINFO: %PKGBUILD
+	cd $(@D) && makepkg --printsrcinfo > $(@F)
 
-generate-srcinfo:
-	find . -name "PKGBUILD" -exec sh -c 'cd $$(dirname {}) && makepkg --printsrcinfo > .SRCINFO' \;
-
-check-upstream: generate-srcinfo
+check-outdated: generate-srcinfo
 	aur-out-of-date -local **/.SRCINFO
-
-check-aur:
-	repoctl status -a
-
-check-outdated: check-upstream check-aur
-
-lint:
-	namcap -i */PKGBUILD
-
-pull:
-	vcs pull --nested .
-
-clean:
-	vcs custom --nested --git --args clean -ff -xd .
-
-pacman.conf:
-	curl -O https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/pacman/trunk/pacman.conf
-	cat pacman.conf.addition >> pacman.conf
 
 chroot: pacman.conf
 	mkdir -p $(CHROOT)
 	mkarchroot -C pacman.conf $(CHROOT)/root base-devel
 
-all: $(OBJECTS)
+generate-srcinfo: $(SRCINFO-FILES)
+
+lint:
+	namcap -i */PKGBUILD
+
+pacman.conf:
+	curl -O https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/pacman/trunk/pacman.conf
+	cat pacman.conf.addition >> pacman.conf
+
+sign-all-and-update:
+	find $(PKG-REPO) -iname "*.pkg.tar.zst" \
+		-exec sh -c "test -e {}.sig || gpg -v --detach-sign --no-armor {}" \;
+	repoctl update
+
+all: $(PKGS)
+
+.PHONY: $(PKGS) check-upstream chroot generate-srcinfo lint pacman.conf sign-all-and-update all
