@@ -35,5 +35,8 @@ sign-all-and-update:
 	repoctl update
 
 all: $(PKGS)
+clean:
+	git clean -xffd
+test: lint
 
-.PHONY: $(PKGS) check-upstream chroot generate-srcinfo lint pacman.conf sign-all-and-update all
+.PHONY: $(PKGS) check-upstream chroot generate-srcinfo lint pacman.conf sign-all-and-update all clean test
