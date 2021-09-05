@@ -1,0 +1,11 @@
+pkgbase = pacman-hook-list-pkgs
+	pkgdesc = Pacman hook to list installed packages to file.
+	pkgver = 20210826
+	pkgrel = 1
+	url = https://github.com/tetov/pkgbuilds/tree/main/pacman-hook-list-pkgs
+	arch = any
+	license = Unlicense
+	source = list-pkgs.hook
+	sha256sums = 266613bcfb149ccf48eae41d166748e1f40abfdc9ae19f5035dde288defdd9bf
+
+pkgname = pacman-hook-list-pkgs

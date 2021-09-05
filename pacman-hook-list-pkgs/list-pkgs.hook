@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Install
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Update packages lists in /etc
+When = PostTransaction
+Exec=/bin/sh -c '/usr/bin/pacman -Qqe > /etc/pacman-pkg-list.txt'
+

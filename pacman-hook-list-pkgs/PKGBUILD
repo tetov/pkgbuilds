@@ -1,0 +1,15 @@
+# Maintainer: Anton Tetov <anton@tetov.xyz>
+pkgname=pacman-hook-list-pkgs
+pkgver=20210826
+pkgrel=1
+pkgdesc="Pacman hook to list installed packages to file."
+arch=('any')
+url='https://github.com/tetov/pkgbuilds/tree/main/pacman-hook-list-pkgs'
+license=('Unlicense')
+source=('list-pkgs.hook')
+sha256sums=('266613bcfb149ccf48eae41d166748e1f40abfdc9ae19f5035dde288defdd9bf')
+
+package() {
+	install -Dm 644 "$srcdir"/list-pkgs.hook "$pkgdir"/usr/share/libalpm/hooks/list-pkgs.hook
+}
+
