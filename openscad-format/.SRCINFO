@@ -1,0 +1,14 @@
+pkgbase = openscad-format
+	pkgdesc = A source code formatter for the OpenSCAD language.
+	pkgver = 1.0.0
+	pkgrel = 1
+	url = https://github.com/Maxattax97/openscad-format#readme
+	arch = any
+	license = GPL3
+	makedepends = npm
+	makedepends = jq
+	depends = clang
+	source = https://registry.npmjs.org/openscad-format/-/openscad-format-1.0.0.tgz
+	sha256sums = d4f1ce864254aba5e424df10a25276e222a4734a940e0d74e3e458edfb557564
+
+pkgname = openscad-format

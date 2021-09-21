@@ -1,0 +1,35 @@
+# Maintainer: Anton Tetov <anton@tetov.xyz>
+pkgname=openscad-format
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="A source code formatter for the OpenSCAD language."
+arch=('any')
+url="https://github.com/Maxattax97/openscad-format#readme"
+license=('GPL3')
+depends=('clang')
+makedepends=('npm' 'jq')
+source=(https://registry.npmjs.org/$pkgname/-/$pkgname-$pkgver.tgz)
+sha256sums=('d4f1ce864254aba5e424df10a25276e222a4734a940e0d74e3e458edfb557564')
+
+prepare() {
+  mv package "${pkgname}"
+  cd "${pkgname}"
+
+  # remove dependency on clang-format from npm
+  # cat trick: https://stackoverflow.com/a/60744617
+  cat <<< $(jq 'del(.dependencies."clang-format")' package.json) > package.json
+}
+
+package() {
+  npm install --verbose -g --prefix "${pkgdir}/usr" "${pkgname}"
+
+  # Non-deterministic race in npm gives 777 permissions to random directories.
+  # See https://github.com/npm/cli/issues/1103 for details.
+  find "${pkgdir}/usr" -type d -exec chmod 755 {} +
+
+  # npm gives ownership of ALL FILES to build user
+  # https://bugs.archlinux.org/task/63396
+  chown -R root:root "${pkgdir}"
+}
+
+# vim:set ts=2 sw=2 et:
